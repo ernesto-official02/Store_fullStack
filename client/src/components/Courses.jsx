@@ -1,9 +1,25 @@
-import React from 'react'
+import React, { useState} from 'react'
 import Cards from './Cards';
 import list from "../../public/list.json";
 import {Link} from "react-router-dom";
+import { useEffect } from 'react';
+import axios from 'axios';
 
 function Courses() {
+  const[book , setBook]=useState([])
+  useEffect(()=>{
+    const getBook =async()=>{
+      try{
+      const res= await axios.get("http://localhost:4001/book");
+      console.log(res.data)
+      setBook(res.data)
+      } catch (error)
+      {
+          console.log(error);
+      }
+    };
+    getBook();
+  },[]);
   return (
     <>
     <div className="max-w-screen-2xl conatiner mx-auto md:px-20 px-4">
@@ -17,7 +33,7 @@ function Courses() {
           </Link>
       </div>
       <div className='text-black mt-12 mb-2 grid grid-cols-1 md:grid-cols-4'>
-        {list.map((item)=>(
+        {book.map((item)=>(
           <Cards item={item} key={item.id} />
 
          ) )

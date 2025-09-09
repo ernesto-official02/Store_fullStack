@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from "react";
 import Login from "./Login";
+import Logout from "./Logout";
+import { useAuth } from "../context/AuthProvider";
+
+
 
 function Navbar() {
+    const [authUser,setAuthUser]=useAuth();
+  console.log(authUser);
+
+
   // Sticky navbar state
   const [sticky, setSticky] = useState(false);
 
@@ -74,7 +82,7 @@ function Navbar() {
               className={`text-2xl font-bold cursor-pointer text-black transform transition-transform duration-300 
               ${sticky ? "scale-75" : "scale-100"}`}
             >
-              Bookstore
+              Book<span className="text-pink-500" >Store</span>
             </a>
           </div>
 
@@ -114,11 +122,24 @@ function Navbar() {
             </div>
 
             {/* Login Button */}
-            <a className="btn bg-pink-600 text-white hover:bg-slate-800 duration-300 cursor-pointer"
-            onClick={()=> document.getElementById("my_modal").showModal()}>
-              Login
-            </a>
-            <Login/>
+
+            {
+              authUser ? (
+                <Logout />
+              ) : (
+                <div>
+                  <a className="btn bg-pink-600 text-white hover:bg-slate-800 duration-300 cursor-pointer"
+                    onClick={() => document.getElementById("my_modal").showModal()}>
+                    Login
+                  </a>
+                  <Login />
+                </div>
+
+              )
+            }
+
+
+
           </div>
         </div>
       </div>
